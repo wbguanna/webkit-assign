@@ -1,0 +1,11 @@
+.header-bg {
+    position: relative;
+    height: 300px; /* 마리오 4571px 언저리까지감*/
+}
+
+.header-bg>img {
+    position: absolute;
+    height: inherit;
+    box-sizing: content-box;
+    z-index: -1; 
+}

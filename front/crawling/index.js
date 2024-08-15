@@ -14,6 +14,39 @@ const sleep = (ms) => {
     setTimeout(resolve, ms);
   });
 };
+
+app.get("/w3s_template_img", (req, res) => {
+  let getUrlVal =
+    "https://www.w3schools.com/w3css/tryw3css_templates_food_blog.htm";
+  axios
+    .get(getUrlVal, { responseType: "arraybuffer" })
+    .then(async (response) => {
+      const htmlContent = response.data;
+      let htmlCMD = iconv.decode(htmlContent, "EUC-KR").toString();
+      // cheerio를 이용한 DOM셀렉터
+      const $ = cheerio.load(htmlCMD);
+      let imgData = $("img");
+      console.log(imgData.length);
+
+      for (var i = 0; i < imgData.length; i++) {
+        let imgUrl = imgData[i].attribs.src;
+        //console.log(imgUrl.split('?')[0]);
+        let imgDataUrl = imgUrl.split("?")[0];
+        //console.log(imgDataUrl);
+        axios
+          .get(imgDataUrl, { responseType: "arraybuffer" })
+          .then((imgRes) => {
+            //console.log(imgRes.data);
+            fs.writeFile(`./download/${i}.jpg`, imgRes.data, (err, data1) => {
+              console.log(`>>> 다운로드 완료 ${i}`);
+            });
+          });
+        await sleep(100);
+      }
+    });
+  res.end();
+});
+
 app.get("/axios_test2", (req, res) => {
   // Promise - 콜백 헬에 빠지는것을 방지(흐름제어) - 메소드체인.then([콜백])
   // Async - 리스트 형식으로 한다. [콜백, 콜백, 콜백 ...]
