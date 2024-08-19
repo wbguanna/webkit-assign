@@ -1,11 +1,25 @@
 .header-bg {
     position: relative;
     height: 300px; /* 마리오 4571px 언저리까지감*/
+    /* width: 80%; */
+    scrollbar-width: thin;
 }
 
 .header-bg>img {
     position: absolute;
-    height: inherit;
-    box-sizing: content-box;
-    z-index: -1; 
+    /* height: 1; */
+    /* top:80px; */
+    left: -20px !important; 
+    box-sizing: border-box;
+    overflow-x: scroll;
+    transform: scale(3);
+    z-index: -1;
+}
+
+.header-bg>button {
+    z-index: 1;
+}
+
+.header-bg>img:hover {
+    transition: cubic-bezier(.5,.51,.71,.72) 10s;
 }

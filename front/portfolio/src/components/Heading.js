@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import './mine.css';
+import MiniSlide from './MiniSlide';
 
 export default () => {
   return (

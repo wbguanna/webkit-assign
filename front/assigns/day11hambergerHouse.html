@@ -111,21 +111,26 @@
         }
         this.cellBox.appendChild(this.elementUl);
         this.cellBox.setAttribute("class", "cellBox");
+        this.numberState = 0;
         return this.cellBox;
       };
       Box.prototype.start = function (speed) {
-        this.y = 0;
+        this.y = this.numberState * 100; // 이전 위치 불러옴
+        // 그런데 이렇게하면 0은 표시되지 않는다
+        // 방법1. 원래위치에서 ±50px 기준을 층 범위로 만든다
         this.intervalRef = setInterval(() => {
           this.y -= 10;
           this.elementUl.style.top = this.y + "px";
-          if (this.y <= -800) {
-            this.y = -600;
+          // 요부분때문에 1~9 전체 숫자를 보기 힘들다
+          if (this.y <= -900) {
+            this.y = 0; //-0과 다르다
           }
         }, speed);
       };
       Box.prototype.stop = function () {
         clearInterval(this.intervalRef);
-        this.yPos = Math.floor(this.y / 100) * 100;
+        this.numberState = Math.floor(this.y / 100);
+        this.yPos = this.numberState * 100; // 이전 위치 저장
         this.elementUl.style.top = this.yPos + "px";
       };
 
